@@ -1,0 +1,62 @@
+Table Company [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	name varchar(255)
+	adressID int
+}
+
+Table adresse [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	place varchar(255)
+	street varchar(255)
+	house_number int
+	zip_code int
+	state varchar(255)
+	country varchar(255)
+}
+
+Table "Person " [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	first_name varchar(255)
+	last_name varchar(255)
+}
+
+Table customer [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	pID int
+	email varchar(255)
+	telNr int
+}
+
+Table collaborator [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	pID int
+	roleID int
+	companyID int
+}
+
+Table Role [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	"right 1" boolean
+	"right 2" boolean
+	"right 3" boolean
+}
+
+Ref fk_adresse_id_Company {
+	adresse.id < Company.adressID [ delete: no action, update: no action ]
+}
+
+Ref "fk_collaborator_pID_Person " {
+	collaborator.pID - "Person ".id [ delete: no action, update: no action ]
+}
+
+Ref "fk_customer_pID_Person " {
+	customer.pID - "Person ".id [ delete: no action, update: no action ]
+}
+
+Ref fk_collaborator_roleID_Role {
+	collaborator.roleID > Role.id [ delete: no action, update: no action ]
+}
+
+Ref fk_collaborator_companyID_Company {
+	collaborator.companyID > Company.id [ delete: no action, update: no action ]
+}
