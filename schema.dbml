@@ -1,0 +1,117 @@
+Table Company [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	name varchar(255)
+	adressID int
+	createdAt datetime
+}
+
+Table adresse [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	place varchar(255)
+	street varchar(255)
+	house_number int
+	zip_code int
+	state varchar(255)
+	country varchar(255)
+	createdAt datetime
+}
+
+Table "Person " [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	first_name varchar(255)
+	last_name varchar(255)
+	createdAt datetime
+}
+
+Table customer [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	pID int
+	email varchar(255)
+	telNr int
+}
+
+Table collaborator [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	pID int
+	roleID int
+	companyID int
+	authId int
+}
+
+Table Role [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	"right 1" boolean
+	"right 2" boolean
+	"right 3" boolean
+}
+
+Table Product [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	PNr int
+	CategoryID int
+	title varchar(255)
+	description text(65535)
+	time int
+	price decimal
+}
+
+Table Category [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	name varchar(255)
+}
+
+Table appointment [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	customerID int
+	itemId_1 int
+	itemId_2 int
+	itemId_3 int
+	beginningTime datetime
+	endTime datetime
+	createdAt datetime
+	lastupdatedAt datetime
+}
+
+Table authentication [headercolor: #175e7a] {
+	id int [ pk, increment, not null ]
+	email varchar(255)
+	hash text(65535)
+	confirmed boolean
+	lastconfirm datetime
+}
+
+Ref fk_adresse_id_Company {
+	adresse.id < Company.adressID [ delete: no action, update: no action ]
+}
+
+Ref "fk_collaborator_pID_Person " {
+	collaborator.pID - "Person ".id [ delete: no action, update: no action ]
+}
+
+Ref "fk_customer_pID_Person " {
+	customer.pID - "Person ".id [ delete: no action, update: no action ]
+}
+
+Ref fk_collaborator_roleID_Role {
+	collaborator.roleID > Role.id [ delete: no action, update: no action ]
+}
+
+Ref fk_collaborator_companyID_Company {
+	collaborator.companyID > Company.id [ delete: no action, update: no action ]
+}
+
+Ref fk_Product_CategoryID_Category {
+	Product.CategoryID > Category.id [ delete: no action, update: no action ]
+}
+
+Ref fk_appointment_productIID_Product {
+	appointment.itemId_1 > Product.id [ delete: no action, update: no action ]
+}
+
+Ref fk_appointment_customerID_customer {
+	appointment.customerID > customer.id [ delete: no action, update: no action ]
+}
+
+Ref fk_authentication_id_collaborator {
+	authentication.id - collaborator.authId [ delete: no action, update: no action ]
+}
